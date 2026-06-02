@@ -3,18 +3,39 @@
 A small collection of local Python scripts for avoiding the print→sign→scan bureaucracy loop.
 No data ever leaves your machine.
 
-## Requirements
+## Installation
 
-```
-pip install Pillow pypdf pdf2image img2pdf numpy
+### Option 1: Using pixi (Recommended) 🚀
+
+[Pixi](https://pixi.sh) handles all dependencies including system packages (poppler, ghostscript) automatically:
+
+```bash
+# Install pixi if you don't have it
+curl -fsSL https://pixi.sh/install.sh | bash
+
+# Install all dependencies
+pixi install
+
+# Run any script
+pixi run pdf-editor
+pixi run img-compress scan.png --scale 60
+pixi run pdf-scanify document.pdf
 ```
 
-For `pdf_compress.py` you also need **Ghostscript**:
+### Option 2: Using pip
+
+```bash
+pip install -r requirements.txt
+```
+
+**Additional system dependencies:**
+
+For `pdf_compress.py` you need **Ghostscript**:
 - Linux: `sudo apt install ghostscript`
 - macOS: `brew install ghostscript`
 - Windows: download from https://www.ghostscript.com
 
-For `pdf_scanify.py` and `merge_to_pdf.py` with images, `pdf2image` requires **poppler**:
+For `pdf_scanify.py`, `merge_to_pdf.py`, and `pdf_editor.py` you need **poppler**:
 - Linux: `sudo apt install poppler-utils`
 - macOS: `brew install poppler`
 - Windows: download from https://github.com/oschwartz10612/poppler-windows/releases
@@ -23,12 +44,55 @@ For `pdf_scanify.py` and `merge_to_pdf.py` with images, `pdf2image` requires **p
 
 ## Scripts
 
+### `pdf_editor.py` — Interactive PDF Editor
+
+A GUI application for adding text and images (including transparent signatures) directly to PDFs.
+
+```bash
+# With pixi
+pixi run pdf-editor [input.pdf]
+
+# With python
+python src/pdf_editor.py [input.pdf]
+```
+
+**Features:**
+- ✍️ Add text anywhere with customizable color and font size
+- 🖼️ Insert images with transparency support (perfect for signatures)
+- ↔️ Move and resize text/images interactively
+- 🗑️ Delete annotations (Delete/Backspace key)
+- 🔍 Zoom controls for precise positioning
+- 💾 Save without overwriting existing files
+
+**Workflow:**
+1. Open a PDF or pass it as a command-line argument
+2. Select "Text Color" to choose your text color
+3. Switch between modes:
+   - **Add Text**: Click anywhere to add text
+   - **Insert Image**: Select your signature image, then click to place it
+   - **Edit/Move**: Click to select, drag to move, use handles to resize images
+4. Use Delete/Backspace to remove selected annotations
+5. Save with a unique filename (prevents accidental overwrites)
+
+**Tips:**
+- Use PNG images with transparent backgrounds for signatures (created with GIMP, etc.)
+- In Edit/Move mode, click on images to see resize handles at corners and edges
+- Zoom in for precise placement, zoom out for overview
+
+If the PDF file is large, it can take a bit to save it, just wait, at some point the PDF will appear and a successfull dialog will appear as well.
+
+---
+
 ### `img_compress.py` — Resize & compress an image
 
 Reduces resolution by a percentage, lowers DPI, and optionally converts format.
 
 ```bash
-python img_compress.py scan.png --scale 60 --dpi 96 --format jpeg
+# With pixi
+pixi run img-compress scan.png --scale 60 --dpi 96 --format jpeg
+
+# With python
+python src/img_compress.py scan.png --scale 60 --dpi 96 --format jpeg
 ```
 
 | Flag | Default | Description |
@@ -46,7 +110,11 @@ Output: `<input>_compressed.jpg` (or `.png`)
 Accepts any mix of JPG, PNG, and PDF files in the order you list them.
 
 ```bash
-python merge_to_pdf.py page1.jpg page2.png attachment.pdf -o final.pdf
+# With pixi
+pixi run merge-to-pdf page1.jpg page2.png attachment.pdf -o final.pdf
+
+# With python
+python src/merge_to_pdf.py page1.jpg page2.png attachment.pdf -o final.pdf
 ```
 
 | Flag | Default | Description |
@@ -60,7 +128,11 @@ python merge_to_pdf.py page1.jpg page2.png attachment.pdf -o final.pdf
 Uses Ghostscript to reduce file size.
 
 ```bash
-python pdf_compress.py input.pdf --dpi 120 --quality 75
+# With pixi
+pixi run pdf-compress input.pdf --dpi 120 --quality 75
+
+# With python
+python src/pdf_compress.py input.pdf --dpi 120 --quality 75
 ```
 
 | Flag | Default | Description |
@@ -77,7 +149,11 @@ Output: `<input>_compressed.pdf`
 Applies slight rotation, gaussian noise, blur, brightness/contrast variation, and paper yellowing so a cleanly-filled PDF looks like it was printed, signed by hand, and fed through a scanner.
 
 ```bash
-python pdf_scanify.py signed_form.pdf --dpi 150 --rotate 1.8 --noise 7
+# With pixi
+pixi run pdf-scanify signed_form.pdf --dpi 150 --rotate 1.8 --noise 7
+
+# With python
+python src/pdf_scanify.py signed_form.pdf --dpi 150 --rotate 1.8 --noise 7
 ```
 
 | Flag | Default | Description |

@@ -1,0 +1,55 @@
+[project]
+name = "bureau-tools"
+version = "1.0.0"
+description = "A collection of local Python scripts for avoiding the print→sign→scan bureaucracy loop"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Luigi"}
+]
+
+dependencies = [
+    "img2pdf>=0.6.3",
+    "lxml>=6.1.1",
+    "numpy>=2.4.0",
+    "packaging>=26.2",
+    "pdf2image>=1.17.0",
+    "pikepdf>=10.7.2",
+    "pillow>=12.2.0",
+    "pypdf>=6.12.2",
+    "pymupdf>=1.24.0",
+]
+
+[project.scripts]
+img-compress = "src.img_compress:main"
+merge-to-pdf = "src.merge_to_pdf:main"
+pdf-compress = "src.pdf_compress:main"
+pdf-editor = "src.pdf_editor:main"
+pdf-scanify = "src.pdf_scanify:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
+
+[tool.pixi.pypi-dependencies]
+pillow = ">=12.2.0"
+numpy = ">=2.4.0"
+pymupdf = ">=1.24.0"
+img2pdf = ">=0.6.3"
+pypdf = ">=6.12.2"
+pikepdf = ">=10.7.2"
+pdf2image = ">=1.17.0"
+lxml = ">=6.1.1"
+packaging = ">=26.2"
+
+[tool.pixi.tasks]
+img-compress = "python src/img_compress.py"
+merge-to-pdf = "python src/merge_to_pdf.py"
+pdf-compress = "python src/pdf_compress.py"
+pdf-editor = "python src/pdf_editor.py"
+pdf-scanify = "python src/pdf_scanify.py"
