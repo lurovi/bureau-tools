@@ -36,6 +36,9 @@ build-backend = "setuptools.build_meta"
 channels = ["conda-forge"]
 platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 
+[tool.pixi.dependencies]
+python = ">=3.9,<3.15"
+
 [tool.pixi.pypi-dependencies]
 pillow = ">=12.2.0"
 numpy = ">=2.4.0"
