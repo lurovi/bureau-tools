@@ -36,9 +36,9 @@ def apply_scan_effect(img, rotate_deg, noise_level):
     arr = np.clip(arr + noise, 0, 255)
 
     # yellowing: boost red/green, reduce blue
-    arr[:, :, 0] = np.clip(arr[:, :, 0] * 1.08, 0, 255)   # red
-    arr[:, :, 1] = np.clip(arr[:, :, 1] * 1.05, 0, 255)   # green
-    arr[:, :, 2] = np.clip(arr[:, :, 2] * 0.83, 0, 255)   # blue
+	arr[:, :, 0] = np.clip(arr[:, :, 0] * 1.025, 0, 255)  # red
+	arr[:, :, 1] = np.clip(arr[:, :, 1] * 1.015, 0, 255)  # green
+	arr[:, :, 2] = np.clip(arr[:, :, 2] * 0.96, 0, 255)   # blue
 
     img = Image.fromarray(arr.astype(np.uint8))
 
