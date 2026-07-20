@@ -13,6 +13,9 @@ No data ever leaves your machine.
 # Install pixi if you don't have it
 curl -fsSL https://pixi.sh/install.sh | bash
 
+# Source bashrc to apply effects to current shell directly
+source ~/.bashrc 
+
 # Install all dependencies
 pixi install
 
